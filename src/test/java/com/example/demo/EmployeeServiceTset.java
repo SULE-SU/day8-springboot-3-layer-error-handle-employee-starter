@@ -53,7 +53,8 @@ public class EmployeeServiceTset {
     @Test
     void should_sets_the_employee_active_status_to_false_when_delete_employee() {
         Employee employee = new Employee(1, "Mike", 20, "MALE", 10000.0);
-        when(employeeRepository.getEmployeeById(anyInt())).thenReturn(employee);
+        assertTrue(employee.getStatus());
+        when(employeeRepository.getEmployeeById(1)).thenReturn(employee);
 
         employeeService.deleteEmployee(1);
         verify(employeeRepository).deleteEmployee(1);
@@ -67,9 +68,5 @@ public class EmployeeServiceTset {
         when(employeeRepository.getEmployeeById(anyInt())).thenReturn(employee);
         assertThrows(InvalidEmployeeException.class, () -> employeeService.updateEmployee(1,employee));
     }
-
-
-
-
 
 }
