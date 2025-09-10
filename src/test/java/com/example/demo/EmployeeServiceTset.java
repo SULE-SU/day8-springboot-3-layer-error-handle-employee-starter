@@ -37,4 +37,15 @@ public class EmployeeServiceTset {
         Employee employee = new Employee(null, "Tom", 16, "MALE", 20000.0);
         assertThrows(InvalidEmployeeException.class, () -> employeeService.createEmployee(employee));
     }
+
+    @Test
+    void should_throw_exception_when__employee_of_gender_than_35_with_salary_less_than_20000() {
+        Employee employee = new Employee(null, "John", 35, "MALE", 10000.0);
+        assertThrows(InvalidEmployeeException.class, () -> employeeService.createEmployee(employee));
+    }
+
+
+
+
+
 }

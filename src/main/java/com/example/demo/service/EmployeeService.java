@@ -37,6 +37,9 @@ public class EmployeeService {
         if(employee.getAge() > 65 || employee.getAge() < 18){
             throw new InvalidEmployeeException("employee age gender than 65 or less than 18!");
         }
+        if(employee.getAge() >30 && employee.getSalary() < 20000.0){
+            throw new InvalidEmployeeException("employee needs to hard！");
+        }
         return employeeRepository.createEmployee(employee);
     }
 
