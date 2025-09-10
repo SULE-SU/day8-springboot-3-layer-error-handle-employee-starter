@@ -148,7 +148,8 @@ public class EmployeeControllerTest {
                             "name": "John Smith",
                             "age": 29,
                             "gender": "MALE",
-                            "salary": 65000.0
+                            "salary": 65000.0,
+                            "status": true
                         }
                 """;
 
@@ -177,4 +178,8 @@ public class EmployeeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(5));
     }
+
+//    @Test
+//    void should_throw_exception_when_update_employee_of_gender_than_65_or_less_than_18() {
+//    }
 }
