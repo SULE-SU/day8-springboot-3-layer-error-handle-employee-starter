@@ -227,6 +227,24 @@ public class EmployeeControllerTest {
     }
 
 
+    @Test
+    void should_throw_exception_when_update_employee_of_status_false() throws Exception {
+        createJohnSmith();
+        String requestBody = """
+                        {
+                            "name": "John Smith",
+                            "age": 29,
+                            "gender": "MALE",
+                            "salary": 65000.0
+                        }
+                """;
+
+        mockMvc.perform(put("/employees/" + 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
+                )
+                .andExpect(status().isBadRequest());
+    }
 
 
 }
