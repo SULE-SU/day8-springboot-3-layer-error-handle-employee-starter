@@ -32,5 +32,9 @@ public class EmployeeServiceTset {
         assertEquals(employeeRsult.getAge(),employee.getAge());
     }
 
-
+    @Test
+    void should_throw_exception_when_update_employee_of_gender_than_65_or_less_than_18() {
+        Employee employee = new Employee(null, "Tom", 16, "MALE", 20000.0);
+        assertThrows(InvalidEmployeeException.class, () -> employeeService.createEmployee(employee));
+    }
 }
