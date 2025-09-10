@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.controller.EmployeeController;
 import com.example.demo.entity.Employee;
+import com.example.demo.exception.InvalidEmployeeException;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -203,6 +206,23 @@ public class EmployeeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(false));
+    }
+
+    @Test
+    void should_throw_exception_when__employee_of_gender_than_30_with_salary_less_than_20000() throws Exception {
+        String requestBody = """
+                        {
+                            "name": "John Smith",
+                            "age": 35,
+                            "gender": "MALE",
+                            "salary": 1000.0
+                        }
+                """;
+
+        mockMvc.perform(post("/employees")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isBadRequest());
 
     }
 
