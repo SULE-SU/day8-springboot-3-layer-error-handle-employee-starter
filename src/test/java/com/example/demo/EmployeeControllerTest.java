@@ -92,20 +92,20 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$[0].salary").value(60000.0));
     }
 
-//    @Test
-//    void should_create_employee() throws Exception {
-//        createJohnSmith();
-//
-//        mockMvc.perform(get("/employees")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$[0].id").value(1))
-//                .andExpect(jsonPath("$[0].name").value("John Smith"))
-//                .andExpect(jsonPath("$[0].age").value(28))
-//                .andExpect(jsonPath("$[0].gender").value("MALE"))
-//                .andExpect(jsonPath("$[0].salary").value(60000.0));
-//    }
-//
+    @Test
+    void should_create_employee() throws Exception {
+        createJohnSmith();
+
+        mockMvc.perform(get("/employees")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].name").value("John Smith"))
+                .andExpect(jsonPath("$[0].age").value(28))
+                .andExpect(jsonPath("$[0].gender").value("MALE"))
+                .andExpect(jsonPath("$[0].salary").value(60000.0));
+    }
+
 //    @Test
 //    void should_return_200_with_empty_body_when_no_employee() throws Exception {
 //        mockMvc.perform(get("/employees")
