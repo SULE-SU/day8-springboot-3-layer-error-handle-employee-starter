@@ -42,4 +42,8 @@ public class EmployeeService {
         }
         return employeeRepository.updateEmployee(id, updatedEmployee);
     }
+
+    public void deleteEmployee(@PathVariable int id) {
+       employeeRepository.deleteEmployee(id);
+    }
 }
