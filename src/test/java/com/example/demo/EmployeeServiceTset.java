@@ -10,8 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -44,6 +43,11 @@ public class EmployeeServiceTset {
         assertThrows(InvalidEmployeeException.class, () -> employeeService.createEmployee(employee));
     }
 
+    @Test
+    void should_return_active_status_when_create_employee() {
+        Employee employee = new Employee(null, "Tom", 35, "MALE", 10000.0);
+        assertTrue(employee.getStatus());
+    }
 
 
 
