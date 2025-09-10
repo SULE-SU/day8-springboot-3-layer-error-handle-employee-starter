@@ -4,9 +4,7 @@ package com.example.demo.repository;
 import com.example.demo.entity.Employee;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -35,4 +33,9 @@ public class EmployeeRepository {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id));
     }
 
+    public Employee createEmployee(@RequestBody Employee employee) {
+        employee.setId(employees.size() + 1);
+        employees.add(employee);
+        return employee;
+    }
 }

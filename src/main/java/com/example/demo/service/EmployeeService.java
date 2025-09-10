@@ -30,5 +30,8 @@ public class EmployeeService {
         return employee;
     }
 
+    public Employee createEmployee(@RequestBody Employee employee) {
+        return employeeRepository.createEmployee(employee);
+    }
 
 }
