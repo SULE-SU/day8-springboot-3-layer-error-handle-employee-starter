@@ -34,4 +34,12 @@ public class EmployeeService {
         return employeeRepository.createEmployee(employee);
     }
 
+    public Employee updateEmployee(int id, Employee updatedEmployee) {
+        Employee employee = employeeRepository.getEmployeeById(id);
+
+        if (employee == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
+        }
+        return employeeRepository.updateEmployee(id, updatedEmployee);
+    }
 }
