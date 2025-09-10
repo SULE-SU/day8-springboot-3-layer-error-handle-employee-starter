@@ -13,16 +13,16 @@ public class Employee {
     }
 
     public void setStatus(boolean status) {
-        this.status = true;
+        this.status = status;
     }
 
-    public Employee(Integer id, String name, Integer age, String gender, Double salary) {
+    public Employee(Integer id, String name, Integer age, String gender, Double salary, boolean status) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
-        this.status = true;
+        this.status = status;
     }
 
 
