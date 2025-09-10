@@ -60,6 +60,15 @@ public class EmployeeServiceTset {
 
     }
 
+    //When updating an employee, you need to verify whether theemployee is active or not,
+    //if he/she has already left the company,you can't update him/her.
+    @Test
+    void should_throw_exception_when_update_employee_of_status_false() {
+        Employee employee = new Employee(1, "Mike", 20, "MALE", 10000.0, false);
+        when(employeeRepository.getEmployeeById(anyInt())).thenReturn(employee);
+        assertThrows(InvalidEmployeeException.class, () -> employeeService.updateEmployee(1,employee));
+    }
+
 
 
 

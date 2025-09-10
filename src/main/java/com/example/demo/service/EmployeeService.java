@@ -49,6 +49,9 @@ public class EmployeeService {
         if (employee == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
         }
+        if(updatedEmployee.getStatus() ==  false){
+            throw new InvalidEmployeeException("employee status is false!");
+        }
         return employeeRepository.updateEmployee(id, updatedEmployee);
     }
 
