@@ -28,11 +28,9 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public Employee getEmployeeById(@PathVariable int id) {
-        return employees.stream()
-                .filter(employee -> employee.getId() == id)
-                .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id));
+        return employeeService.getEmployeeById(id);
     }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

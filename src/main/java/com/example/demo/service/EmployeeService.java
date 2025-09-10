@@ -22,6 +22,13 @@ public class EmployeeService {
         return employeeRepository.getEmployees(gender, page, size);
     }
 
+    public Employee getEmployeeById(@PathVariable int id) {
+        Employee employee = employeeRepository.getEmployeeById(id);
+        if (employee == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
+        }
+        return employee;
+    }
 
 
 }
