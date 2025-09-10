@@ -78,20 +78,20 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$.salary").value(60000.0));
     }
 
-//    @Test
-//    void should_return_male_employee_when_employee_found() throws Exception {
-//        createJohnSmith();
-//
-//        mockMvc.perform(get("/employees?gender=male")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$[0].id").value(1))
-//                .andExpect(jsonPath("$[0].name").value("John Smith"))
-//                .andExpect(jsonPath("$[0].age").value(28))
-//                .andExpect(jsonPath("$[0].gender").value("MALE"))
-//                .andExpect(jsonPath("$[0].salary").value(60000.0));
-//    }
-//
+    @Test
+    void should_return_male_employee_when_employee_found() throws Exception {
+        createJohnSmith();
+
+        mockMvc.perform(get("/employees?gender=male")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].name").value("John Smith"))
+                .andExpect(jsonPath("$[0].age").value(28))
+                .andExpect(jsonPath("$[0].gender").value("MALE"))
+                .andExpect(jsonPath("$[0].salary").value(60000.0));
+    }
+
 //    @Test
 //    void should_create_employee() throws Exception {
 //        createJohnSmith();
