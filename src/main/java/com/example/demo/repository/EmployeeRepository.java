@@ -55,17 +55,12 @@ public class EmployeeRepository {
     }
 
     public void deleteEmployee(int id) {
-        Employee found = null;
-        for (Employee e : employees) {
-            if (e.getId() == id) {
-                found = e;
-                break;
-            }
-        }
-        if (found == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
-        }
-        employees.remove(found);
+        Employee employee = getEmployeeById(id);
+        employees.remove(employee);
+    }
+
+    public void deleteAllEmployees() {
+        employees.clear();
     }
 
 }

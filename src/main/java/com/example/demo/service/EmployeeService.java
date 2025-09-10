@@ -4,7 +4,6 @@ import com.example.demo.entity.Employee;
 import com.example.demo.repository.EmployeeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -18,19 +17,19 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> getEmployees(@RequestParam(required = false) String gender, @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
+    public List<Employee> getEmployees(String gender, Integer page, Integer size) {
         return employeeRepository.getEmployees(gender, page, size);
     }
 
-    public Employee getEmployeeById(@PathVariable int id) {
+    public Employee getEmployeeById(int id) {
         Employee employee = employeeRepository.getEmployeeById(id);
-        if (employee == null){
+        if (employee == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
         }
         return employee;
     }
 
-    public Employee createEmployee(@RequestBody Employee employee) {
+    public Employee createEmployee(Employee employee) {
         return employeeRepository.createEmployee(employee);
     }
 
@@ -43,7 +42,16 @@ public class EmployeeService {
         return employeeRepository.updateEmployee(id, updatedEmployee);
     }
 
-    public void deleteEmployee(@PathVariable int id) {
-       employeeRepository.deleteEmployee(id);
+    public void deleteEmployee(int id) {
+        Employee employee = employeeRepository.getEmployeeById(id);
+        if (employee == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
+        }
+
+        employeeRepository.deleteEmployee(id);
+    }
+
+    public void deleteAllEmployees() {
+        employeeRepository.deleteAllEmployees();
     }
 }
