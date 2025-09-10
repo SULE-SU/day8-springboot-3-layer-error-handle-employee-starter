@@ -29,5 +29,25 @@ public class CompanyRepository {
         return company;
     }
 
+    public Company updateCompany(int id, Company updatedCompany) {
+        Company found = null;
+        for (Company c : companies) {
+            if (c.getId().equals(id)) {
+                c.setName(updatedCompany.getName());
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public Company getCompanyById(int id) {
+        for (Company c : companies) {
+            if (c.getId().equals(id)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
 
 }
