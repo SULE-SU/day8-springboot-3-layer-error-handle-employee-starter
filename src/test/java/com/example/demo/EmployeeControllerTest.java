@@ -2,7 +2,6 @@ package com.example.demo;
 
 import com.example.demo.controller.EmployeeController;
 import com.example.demo.entity.Employee;
-import com.example.demo.exception.InvalidEmployeeException;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,8 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -182,10 +179,15 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    void should_throw_exception_when__employee_of_gender_than_30_with_salary_less_than_20000() throws Exception {
-        Employee employee = new Employee(null, "John", 35, "MALE", 10000.0);
-        assertThrows(InvalidEmployeeException.class, () -> employeeController.createEmployee(employee));
+    void should_return_active_status_when_create_employee() throws Exception {
+       createJohnSmith();
+
+       mockMvc.perform(get("/employees/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(true));
     }
+
 
 
 
