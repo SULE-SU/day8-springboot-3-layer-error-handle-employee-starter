@@ -19,6 +19,10 @@ public class CompanyService {
         return companyRepository.getCompanies(page, size);
     }
 
+    public Company createCompany(Company company) {
+        return companyRepository.createCompany(company);
+    }
+
 
 
 }
