@@ -4,18 +4,35 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "employees")
+@Table(name = "employee")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private Integer age;
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
     private String gender;
     private Double salary;
     private boolean status;
 
-    @Column(name = "compant_id")
+    @Column(name = "company_id")
     private Integer companyId;
 
     public void setCompanyId(Integer companyId) {
