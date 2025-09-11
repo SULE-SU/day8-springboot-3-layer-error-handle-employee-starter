@@ -63,11 +63,15 @@ public class EmployeeService {
 
     public Employee updateEmployee(int id, Employee updatedEmployee) {
         Employee employee = getEmployeeById(id);
-        if(!updatedEmployee.getStatus()){
+        if(!employee.getStatus()){
             throw new InvalidEmployeeException("employee status is false!");
         }
-        employee.setId(id);
-        return employeeRepository.save(updatedEmployee);
+        employee.setName(updatedEmployee.getName());
+        employee.setAge(updatedEmployee.getAge());
+        employee.setGender(updatedEmployee.getGender());
+        employee.setSalary(updatedEmployee.getSalary());
+        employee.setStatus(true);
+        return employeeRepository.save(employee);
     }
 
     public void deleteEmployee(int id) {
@@ -75,8 +79,8 @@ public class EmployeeService {
         if (employee.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
         }
-
-        employeeRepository.deleteById(id);
+        employee.get().setStatus(false);
+        employeeRepository.save(employee.get());
     }
 
 }

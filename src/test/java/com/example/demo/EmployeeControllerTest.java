@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -22,12 +23,13 @@ public class EmployeeControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+
     @Autowired
-    private EmployeeController employeeController;
+    private JdbcTemplate jdbcTemplate;
 
     private void createJohnSmith() throws Exception {
         Gson gson = new Gson();
-        String john = gson.toJson(new Employee(null, "John Smith", 28, "MALE", 60000.0)).toString();
+        String john = gson.toJson(new Employee(null, "John Smith", 28, "MALE", 60000.0, true));
 
         mockMvc.perform(post("/employees")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -45,8 +47,9 @@ public class EmployeeControllerTest {
 
 
     @BeforeEach
-    void cleanEmployees() throws Exception {
-        mockMvc.perform(delete("/employees/all"));
+    void cleanEmployees(){
+        jdbcTemplate.execute("delete from employees;");
+        jdbcTemplate.execute("alter table employees AUTO_INCREMENT=1;");
     }
 
     @Test
@@ -146,11 +149,10 @@ public class EmployeeControllerTest {
         createJohnSmith();
         String requestBody = """
                         {
-                            "name": "John Smith",
+                            "name": "leo",
                             "age": 29,
                             "gender": "MALE",
-                            "salary": 65000.0,
-                            "status": true
+                            "salary": 65000.0
                         }
                 """;
 
@@ -160,8 +162,10 @@ public class EmployeeControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.name").value("leo"))
                 .andExpect(jsonPath("$.age").value(29))
-                .andExpect(jsonPath("$.salary").value(65000.0));
+                .andExpect(jsonPath("$.salary").value(65000.0))
+                .andExpect(jsonPath("$.status").value(true));
     }
 
     @Test
@@ -225,6 +229,12 @@ public class EmployeeControllerTest {
     @Test
     void should_throw_exception_when_update_employee_of_status_false() throws Exception {
         createJohnSmith();
+
+        mockMvc.perform(delete("/employees/" + 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isNoContent());
+
         String requestBody = """
                         {
                             "name": "John Smith",
