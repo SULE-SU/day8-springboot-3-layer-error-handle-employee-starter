@@ -69,4 +69,8 @@ public class EmployeeResponse {
     public EmployeeResponse() {
 
     }
+
+    public boolean getStatus() {
+        return status;
+    }
 }

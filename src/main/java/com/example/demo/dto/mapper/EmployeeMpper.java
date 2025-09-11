@@ -18,4 +18,10 @@ public class EmployeeMpper {
     public  List<EmployeeResponse> toResponse(List<Employee> employees) {
        return employees.stream().map(this::toResponse).toList();
     }
+
+    public  Employee toEntity(EmployeeResponse employeeResponse) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeResponse, employee);
+        return employee;
+    }
 }

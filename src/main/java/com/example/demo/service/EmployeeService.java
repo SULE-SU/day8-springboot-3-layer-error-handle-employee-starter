@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.EmployeeResponse;
+import com.example.demo.dto.mapper.EmployeeMpper;
 import com.example.demo.entity.Employee;
 import com.example.demo.exception.InvalidEmployeeException;
 import com.example.demo.repository.IEmployeeRepository;
@@ -17,37 +19,39 @@ public class EmployeeService {
 
     private final IEmployeeRepository employeeRepository;
 
+    private final EmployeeMpper employeeMpper = new EmployeeMpper();
+
     public EmployeeService(IEmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> getEmployees(String gender, Integer page, Integer size) {
+    public List<EmployeeResponse> getEmployees(String gender, Integer page, Integer size) {
         if(gender == null){
             if(page == null || size == null){
-                return employeeRepository.findAll();
+                return employeeMpper.toResponse(employeeRepository.findAll());
             }else {
                 Pageable pageable = PageRequest.of(page-1, size);
-                return employeeRepository.findAll(pageable).toList();
+                return employeeMpper.toResponse(employeeRepository.findAll(pageable).toList());
             }
         }else{
             if(page == null || size == null){
-                return employeeRepository.findEmlpoyeesByGender(gender);
+                return employeeMpper.toResponse(employeeRepository.findEmlpoyeesByGender(gender));
             }else {
                 Pageable pageable = PageRequest.of(page-1, size);
-                return employeeRepository.findEmlpoyeesByGender(gender,pageable);
+                return employeeMpper.toResponse(employeeRepository.findEmlpoyeesByGender(gender,pageable));
             }
         }
     }
 
-    public Employee getEmployeeById(int id) {
+    public EmployeeResponse getEmployeeById(int id) {
         Optional<Employee> employee = employeeRepository.findById(id);
         if (employee.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
         }
-        return employee.get();
+        return employeeMpper.toResponse(employee.get());
     }
 
-    public Employee createEmployee(Employee employee) {
+    public EmployeeResponse createEmployee(Employee employee) {
         if(employee.getAge() ==  null){
             throw new InvalidEmployeeException("employee age is null!");
         }
@@ -58,11 +62,15 @@ public class EmployeeService {
             throw new InvalidEmployeeException("employee needs to hard！");
         }
         employee.setStatus(true);
-        return employeeRepository.save(employee);
+        return employeeMpper.toResponse(employeeRepository.save(employee));
     }
 
-    public Employee updateEmployee(int id, Employee updatedEmployee) {
-        Employee employee = getEmployeeById(id);
+    public EmployeeResponse updateEmployee(int id, Employee updatedEmployee) {
+        Optional<Employee> employeeOptional = employeeRepository.findById(id);
+        if (employeeOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
+        }
+        Employee employee = employeeOptional.get();
         if(!employee.getStatus()){
             throw new InvalidEmployeeException("employee status is false!");
         }
@@ -71,7 +79,8 @@ public class EmployeeService {
         employee.setGender(updatedEmployee.getGender());
         employee.setSalary(updatedEmployee.getSalary());
         employee.setStatus(true);
-        return employeeRepository.save(employee);
+
+        return employeeMpper.toResponse(employeeRepository.save(employee));
     }
 
     public void deleteEmployee(int id) {

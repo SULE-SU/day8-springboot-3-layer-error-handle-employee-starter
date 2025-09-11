@@ -24,25 +24,25 @@ public class EmployeeController {
 
     @GetMapping
     public List<EmployeeResponse> getEmployees(@RequestParam(required = false) String gender, @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
-        return employeeMpper.toResponse(employeeService.getEmployees(gender, page, size));
+        return employeeService.getEmployees(gender, page, size);
     }
 
     @GetMapping("/{id}")
     public EmployeeResponse getEmployeeById(@PathVariable int id) {
-        return employeeMpper.toResponse(employeeService.getEmployeeById(id));
+        return employeeService.getEmployeeById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public EmployeeResponse createEmployee(@RequestBody Employee employee) {
-        return employeeMpper.toResponse(employeeService.createEmployee(employee));
+        return employeeService.createEmployee(employee);
     }
 
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public EmployeeResponse updateEmployee(@PathVariable int id, @RequestBody Employee updatedEmployee) {
-        return employeeMpper.toResponse(employeeService.updateEmployee(id, updatedEmployee));
+        return employeeService.updateEmployee(id, updatedEmployee);
     }
 
     @DeleteMapping("/{id}")
