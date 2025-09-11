@@ -57,9 +57,5 @@ public class CompanyRepository {
         companies.remove(company);
     }
 
-    public void deleteAllCompanies() {
-        companies.clear();
-    }
-
 
 }

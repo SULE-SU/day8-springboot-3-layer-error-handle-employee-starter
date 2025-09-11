@@ -51,8 +51,5 @@ public class CompanyController {
         companyService.deleteCompany(id);
     }
 
-    @DeleteMapping("/all")
-    public void deleteAllCompanies() {
-        companyService.deleteAllCompanies();
-    }
+
 }

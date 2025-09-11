@@ -1,8 +1,25 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.*;
+
+import java.util.List;
+
+@Entity
+@Table(name = "companies")
 public class Company {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "company_id")
+    private List<Employee> employees;
+
+    public Company() {
+
+    }
+
     public Integer getId() {
         return id;
     }
