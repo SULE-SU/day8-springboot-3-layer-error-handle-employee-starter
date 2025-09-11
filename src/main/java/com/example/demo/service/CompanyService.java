@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.CompanyResponse;
+import com.example.demo.dto.mapper.CompanyMapper;
 import com.example.demo.entity.Company;
 import com.example.demo.repository.CompanyRepository;
 import com.example.demo.repository.ICompanyRepository;
@@ -17,47 +19,50 @@ public class CompanyService {
 
     private final ICompanyRepository companyRepository;
 
-    public CompanyService(ICompanyRepository companyRepository) {
+    private final CompanyMapper companyMapper;
+
+    public CompanyService(ICompanyRepository companyRepository, CompanyMapper companyMapper) {
         this.companyRepository = companyRepository;
+        this.companyMapper = companyMapper;
     }
 
-    public List<Company> getCompanies(Integer page, Integer size) {
+    public List<CompanyResponse> getCompanies(Integer page, Integer size) {
         if(page == null || size == null){
-            return companyRepository.findAll();
+            return companyMapper.toResponse(companyRepository.findAll());
         }else {
             Pageable pageable = PageRequest.of(page-1, size);
-            return companyRepository.findAll(pageable).toList();
+            return companyMapper.toResponse(companyRepository.findAll(pageable).toList());
         }
     }
 
-    public Company createCompany(Company company) {
+    public CompanyResponse createCompany(Company company) {
         if(company.getName() == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Company id must be null");
         }
-        return companyRepository.save(company);
+        return companyMapper.toResponse(companyRepository.save(company));
     }
 
-    public Company updateCompany(int id, Company updatedCompany) {
+    public CompanyResponse updateCompany(int id, Company updatedCompany) {
+        Optional<Company> companyOptional = companyRepository.findById(id);
+        if (companyOptional.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id);
+        }
+        Company company = companyOptional.get();
+        company.setId(id);
+        company.setName(updatedCompany.getName());
+        return companyMapper.toResponse(companyRepository.save(company));
+    }
+
+    public CompanyResponse getCompanyById(int id) {
         Optional<Company> company = companyRepository.findById(id);
         if (company.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id);
         }
-        company.get().setId(id);
-        company.get().setName(updatedCompany.getName());
-        return companyRepository.save(company.get());
-    }
-
-    public Company getCompanyById(int id) {
-        Optional<Company> company = companyRepository.findById(id);
-        if (company.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id);
-        }
-        return company.get();
+        return companyMapper.toResponse(company.get());
     }
 
     public void deleteCompany(int id) {
-        Company company = getCompanyById(id);
-        if (company == null){
+        if (!companyRepository.existsById(id)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id);
         }
         companyRepository.deleteById(id);
