@@ -1,10 +1,8 @@
 package com.example.demo;
 
-import com.example.demo.dto.EmployeeResponse;
 import com.example.demo.dto.mapper.EmployeeMpper;
 import com.example.demo.entity.Employee;
 import com.example.demo.exception.InvalidEmployeeException;
-import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.repository.IEmployeeRepository;
 import com.example.demo.service.EmployeeService;
 import org.junit.jupiter.api.Test;
@@ -34,20 +32,20 @@ public class EmployeeServiceTset {
     void should_throw_exception_when_create_a_employee() {
         Employee employee = new Employee(1, "Tom", 20, "MALE", 20000.0);
         when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
-        Employee employeeRsult = employeeMpper.toEntity(employeeService.createEmployee(employee));
+        Employee employeeRsult = employeeMpper.toEntityToTest(employeeService.createEmployee(employee));
         assertEquals(employeeRsult.getAge(),employee.getAge());
     }
 
     @Test
     void should_throw_exception_when_update_employee_of_gender_than_65_or_less_than_18() {
         Employee employee = new Employee(null, "Tom", 16, "MALE", 20000.0);
-        assertThrows(InvalidEmployeeException.class, () -> employeeMpper.toEntity(employeeService.createEmployee(employee)));
+        assertThrows(InvalidEmployeeException.class, () -> employeeMpper.toEntityToTest(employeeService.createEmployee(employee)));
     }
 
     @Test
     void should_throw_exception_when__employee_of_gender_than_35_with_salary_less_than_20000() {
         Employee employee = new Employee(null, "John", 35, "MALE", 10000.0);
-        assertThrows(InvalidEmployeeException.class, () -> employeeMpper.toEntity(employeeService.createEmployee(employee)));
+        assertThrows(InvalidEmployeeException.class, () -> employeeMpper.toEntityToTest(employeeService.createEmployee(employee)));
     }
 
     @Test

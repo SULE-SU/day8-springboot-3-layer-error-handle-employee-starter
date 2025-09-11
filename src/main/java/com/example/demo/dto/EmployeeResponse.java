@@ -6,7 +6,6 @@ public class EmployeeResponse {
     private String name;
     private Integer age;
     private String gender;
-    private Double salary;
     private boolean status;
 
     public Integer getId() {
@@ -41,13 +40,6 @@ public class EmployeeResponse {
         this.age = age;
     }
 
-    public Double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Double salary) {
-        this.salary = salary;
-    }
 
     public String getName() {
         return name;
@@ -62,7 +54,6 @@ public class EmployeeResponse {
         this.name = name;
         this.age = age;
         this.gender = gender;
-        this.salary = salary;
         this.status = status;
     }
 

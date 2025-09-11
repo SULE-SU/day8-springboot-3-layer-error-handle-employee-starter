@@ -1,10 +1,12 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.EmployeeRequest;
 import com.example.demo.dto.EmployeeResponse;
 import com.example.demo.dto.mapper.EmployeeMpper;
 import com.example.demo.entity.Employee;
 import com.example.demo.service.EmployeeService;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,14 +36,16 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EmployeeResponse createEmployee(@RequestBody Employee employee) {
+    public EmployeeResponse createEmployee(@RequestBody @Validated EmployeeRequest employeeRequest) {
+        Employee employee = employeeMpper.toEntity(employeeRequest);
         return employeeService.createEmployee(employee);
     }
 
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public EmployeeResponse updateEmployee(@PathVariable int id, @RequestBody Employee updatedEmployee) {
+    public EmployeeResponse updateEmployee(@PathVariable int id, @RequestBody @Validated EmployeeRequest employeeRequest) {
+        Employee updatedEmployee = employeeMpper.toEntity(employeeRequest);
         return employeeService.updateEmployee(id, updatedEmployee);
     }
 
