@@ -29,8 +29,8 @@ public class CompanyControllerTest {
 
     @BeforeEach
     void cleanCompanies() throws Exception {
-        jdbcTemplate.execute("delete from companies;");
-        jdbcTemplate.execute("alter table companies AUTO_INCREMENT=1;");
+        jdbcTemplate.execute("delete from company;");
+        jdbcTemplate.execute("alter table company AUTO_INCREMENT=1;");
     }
 
     private void createCompany1() throws Exception {

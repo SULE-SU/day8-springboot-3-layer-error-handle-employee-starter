@@ -48,8 +48,8 @@ public class EmployeeControllerTest {
 
     @BeforeEach
     void cleanEmployees(){
-        jdbcTemplate.execute("delete from employees;");
-        jdbcTemplate.execute("alter table employees AUTO_INCREMENT=1;");
+        jdbcTemplate.execute("delete from employee;");
+        jdbcTemplate.execute("alter table employee AUTO_INCREMENT=1;");
     }
 
     @Test
