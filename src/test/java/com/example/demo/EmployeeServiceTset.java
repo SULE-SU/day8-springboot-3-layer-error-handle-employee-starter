@@ -3,12 +3,15 @@ package com.example.demo;
 import com.example.demo.entity.Employee;
 import com.example.demo.exception.InvalidEmployeeException;
 import com.example.demo.repository.EmployeeRepository;
+import com.example.demo.repository.IEmployeeRepository;
 import com.example.demo.service.EmployeeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -21,12 +24,12 @@ public class EmployeeServiceTset {
     private EmployeeService employeeService;
 
     @Mock
-    private EmployeeRepository employeeRepository;
+    private IEmployeeRepository employeeRepository;
 
     @Test
     void should_throw_exception_when_create_a_employee() {
         Employee employee = new Employee(null, "Tom", 20, "MALE", 20000.0);
-        when(employeeRepository.createEmployee(any(Employee.class))).thenReturn(employee);
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
         Employee employeeRsult = employeeService.createEmployee(employee);
         assertEquals(employeeRsult.getAge(),employee.getAge());
     }
@@ -54,10 +57,10 @@ public class EmployeeServiceTset {
     void should_sets_the_employee_active_status_to_false_when_delete_employee() {
         Employee employee = new Employee(1, "Mike", 20, "MALE", 10000.0);
         assertTrue(employee.getStatus());
-        when(employeeRepository.getEmployeeById(1)).thenReturn(employee);
+        when(employeeRepository.findById(1)).thenReturn(Optional.of(employee));
 
         employeeService.deleteEmployee(1);
-        verify(employeeRepository).deleteEmployee(1);
+        verify(employeeRepository).deleteById(1);
 
     }
 
@@ -65,7 +68,7 @@ public class EmployeeServiceTset {
     @Test
     void should_throw_exception_when_update_employee_of_status_false() {
         Employee employee = new Employee(1, "Mike", 20, "MALE", 10000.0, false);
-        when(employeeRepository.getEmployeeById(anyInt())).thenReturn(employee);
+        when(employeeRepository.findById(anyInt())).thenReturn(Optional.of(employee));
         assertThrows(InvalidEmployeeException.class, () -> employeeService.updateEmployee(1,employee));
     }
 

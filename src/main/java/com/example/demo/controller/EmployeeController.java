@@ -50,8 +50,4 @@ public class EmployeeController {
         employeeService.deleteEmployee(id);
     }
 
-    @DeleteMapping("/all")
-    public void deleteAllEmployees() {
-        employeeService.deleteAllEmployees();
-    }
 }
