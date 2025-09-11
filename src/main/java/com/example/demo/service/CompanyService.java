@@ -39,15 +39,17 @@ public class CompanyService {
 
     public Company updateCompany(int id, Company updatedCompany) {
         Optional<Company> company = companyRepository.findById(id);
-        if (company == null){
+        if (company.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id);
         }
-        return companyRepository.save(updatedCompany);
+        company.get().setId(id);
+        company.get().setName(updatedCompany.getName());
+        return companyRepository.save(company.get());
     }
 
     public Company getCompanyById(int id) {
         Optional<Company> company = companyRepository.findById(id);
-        if (company == null){
+        if (company.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id);
         }
         return company.get();

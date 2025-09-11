@@ -151,7 +151,7 @@ public class CompanyControllerTest {
                     "name": "Spring2"
                 }
                 """;
-        MockHttpServletRequestBuilder request = put("/companies/999")
+        MockHttpServletRequestBuilder request = put("/companies/9999")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody);
 

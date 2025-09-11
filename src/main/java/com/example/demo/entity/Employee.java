@@ -2,7 +2,6 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "employees")
@@ -15,6 +14,13 @@ public class Employee {
     private String gender;
     private Double salary;
     private boolean status;
+
+    @Column(name = "compant_id")
+    private Integer companyId;
+
+    public Employee(Integer companyId) {
+        this.companyId = companyId;
+    }
 
     public boolean getStatus() {
         return status;
@@ -77,4 +83,7 @@ public class Employee {
         this.salary = salary;
     }
 
+    public Integer getCompanyId() {
+        return companyId;
+    }
 }
