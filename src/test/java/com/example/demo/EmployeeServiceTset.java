@@ -60,7 +60,7 @@ public class EmployeeServiceTset {
         when(employeeRepository.findById(1)).thenReturn(Optional.of(employee));
 
         employeeService.deleteEmployee(1);
-        verify(employeeRepository).deleteById(1);
+        verify(employeeRepository).save(employee);
 
     }
 

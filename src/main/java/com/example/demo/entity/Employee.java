@@ -18,6 +18,10 @@ public class Employee {
     @Column(name = "compant_id")
     private Integer companyId;
 
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
+    }
+
     public Employee(Integer companyId) {
         this.companyId = companyId;
     }
