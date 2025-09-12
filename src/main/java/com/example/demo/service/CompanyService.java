@@ -3,7 +3,6 @@ package com.example.demo.service;
 import com.example.demo.dto.CompanyResponse;
 import com.example.demo.dto.mapper.CompanyMapper;
 import com.example.demo.entity.Company;
-import com.example.demo.repository.CompanyRepository;
 import com.example.demo.repository.ICompanyRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

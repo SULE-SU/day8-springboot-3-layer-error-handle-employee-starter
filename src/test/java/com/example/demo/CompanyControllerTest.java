@@ -1,8 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.controller.CompanyController;
 import com.example.demo.entity.Company;
-import com.example.demo.entity.Employee;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
